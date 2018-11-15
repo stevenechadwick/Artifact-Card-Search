@@ -1,11 +1,43 @@
+import os
 import requests
 import json
+import datetime
 
-PlaySet0r = requests.get("https://playartifact.com/cardset/00/").json()
-PlaySet1r = requests.get("https://playartifact.com/cardset/01/").json()
+global PlaySet0r
+PlaySet0r = {}
+global PlaySet1r
+PlaySet1r = {}
+global PlaySet0
+PlaySet0 = {}
+global PlaySet1
+PlaySet1 = {}
+global Expiretime
 
-PlaySet0 = requests.get(PlaySet0r["cdn_root"] + PlaySet0r["url"]).json()
-PlaySet1 = requests.get(PlaySet1r["cdn_root"] + PlaySet1r["url"]).json()
+def GetAPIData():
+
+    global PlaySet0r
+    global PlaySet1r
+    global PlaySet0
+    global PlaySet1
+    global Expiretime
+
+    PlaySet0r = requests.get("https://playartifact.com/cardset/00/").json()
+    PlaySet1r = requests.get("https://playartifact.com/cardset/01/").json()
+
+    Expiretime = PlaySet0r["expire_time"]
+
+    with open('PlaySet0.json', 'w') as f:
+        json.dump(requests.get(PlaySet0r["cdn_root"] + PlaySet0r["url"]).json(), f)
+    with open('PlaySet1.json', 'w') as f:
+        json.dump(requests.get(PlaySet1r["cdn_root"] + PlaySet1r["url"]).json(), f)
+
+    with open('PlaySet0.json') as f:
+        PlaySet0 = json.load(f)
+    with open('PlaySet1.json') as f:
+        PlaySet1 = json.load(f)
+
+#PlaySet0 = requests.get(PlaySet0r["cdn_root"] + PlaySet0r["url"]).json()
+#PlaySet1 = requests.get(PlaySet1r["cdn_root"] + PlaySet1r["url"]).json()
 
 # Searches playsets for user inputted card name
 def GetCardInfo():
@@ -17,6 +49,10 @@ def GetCardInfo():
             for card in PlaySet1["card_set"]["card_list"]:
                 if (card["card_name"]["english"]).lower() == user_search.lower():
                     return card
+
+def APIExpire():
+    if datetime.datetime.utcnow().timestamp() > Expiretime:
+        return True
 
 # Takes dictionary argument and prints relevant information
 def GiveCardInfo(card):
@@ -36,6 +72,9 @@ def GiveCardInfo(card):
             GetCardAbility(card)
     else:
         print("Sorry that's not a valid card")
+    if APIExpire():
+        GetAPIData()
+    GiveCardInfo(GetCardInfo())
 
 # Checks what colour a card is to return in GiveCardInfo function
 def GetCardColour(card):
@@ -57,4 +96,5 @@ def GetCardAbility(card):
             if x["card_id"] == card["references"][0]["card_id"]:
                 print("Signature Card:" + " " + x.get("card_name")["english"])
 
+GetAPIData()
 GiveCardInfo(GetCardInfo())
