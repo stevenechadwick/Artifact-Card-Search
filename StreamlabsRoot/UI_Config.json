@@ -1,0 +1,73 @@
+{
+    "output_file": "Settings/settings.json",
+    "CardName": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Card Name",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "CardType": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Card Type",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "CardText": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Card Text",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "Rarity": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Card Rarity",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "Colour": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Card Colour",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "Attack": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Attack",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "Armour": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Armour",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "Health": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Health",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "SignatureCard": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Signature Card",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    },
+    "Cost": {
+        "type": "checkbox",
+        "value": false,
+        "label": "Cost",
+        "tooltip": "To display CoolDown Message?",
+        "group": "Checkboxes"
+    }
+}
