@@ -137,14 +137,15 @@ def Unload():
 def DownloadJSONBlob(url):
     var_exists = 'Parent' in locals() or 'Parent' in globals()
     if var_exists:
-        req = Parent.GetRequest(url, {})
+        req = Parent.GetRequest(url)
+        # Built in requests function adds another layer to JSON object
+        json_dict = json.load(req)
+        apiset = json.loads(json_dict)   
+        return apiset
     else:
         req = urllib.urlopen(url)
-
-    # Built in requests function adds another layer to JSON object
-    json_dict = json.loads(req)
-    apiset = json.loads(json_dict['response'])   
-    return apiset
+        apiset = json.load(req)   
+        return apiset
 
 def ProcessChatMessage(chatmessage):
     result = re.match('\[\[(.*?)\]\]', chatmessage)
