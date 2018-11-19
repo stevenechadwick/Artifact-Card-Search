@@ -1,3 +1,0 @@
-PlaySet*.json
-*.pyc
-*.ini
