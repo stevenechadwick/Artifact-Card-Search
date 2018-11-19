@@ -1,13 +1,13 @@
 ﻿{
   "CardName": true,
-  "CardType": false,
-  "CardText": false,
+  "CardType": true,
+  "CardText": true,
   "Rarity": false,
   "Colour": true,
   "Attack": true,
-  "Armour": false,
+  "Armour": true,
   "Health": true,
   "Ability": false,
-  "SignatureCard": false,
-  "Cost": false
+  "SignatureCard": true,
+  "Cost": true
 }

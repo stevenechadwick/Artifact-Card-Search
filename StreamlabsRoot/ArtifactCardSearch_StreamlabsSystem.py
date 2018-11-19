@@ -8,10 +8,10 @@ import datetime
 
 # Streamlabs boilerplate script info
 ScriptName = "Artifact Card Search"
-Website = "https://github.com/some_fake_thing"
-Description = "Card Search"
-Creator = "us"
-Version = "1.1.0"
+Website = "https://github.com/stevechadwick/Artifact-Card-Search"
+Description = "Allows twitch chat users to search artifact cards by name and returns info into chat"
+Creator = "Schaddy & Mangtangled"
+Version = "1.0.0"
 
 SETTINGS_CARD_NAME = "CardName"
 SETTINGS_CARD_TYPE = "CardType"
@@ -34,19 +34,6 @@ PlaySet0 = {}
 PlaySet1 = {}
 Settings = {}
 
-def Debugtochat(msg):
-    var_exists = 'Parent' in locals() or 'Parent' in globals()
-    if var_exists:
-        Parent.SendStreamMessage(msg)
-    else:
-        print msg
-
-def Debugtolog(msg):
-    var_exists = 'Parent' in locals() or 'Parent' in globals()
-    if var_exists:
-        Parent.Log("Script Debug", msg)
-    else:
-        print msg
 
 #---------------------------
 #   [Required] Initialize Data (Only called on load)
@@ -70,41 +57,15 @@ def Init():
         PlaySet0Meta = DownloadAndCache(os.path.join(Dirname, 'PlaySet0Meta.json'),"https://playartifact.com/cardset/00/")
         PlaySet0 = DownloadAndCache(os.path.join(Dirname, 'PlaySet0.json'), PlaySet0Meta["cdn_root"] + PlaySet0Meta["url"])
     else:
-        LoadAPIData(os.path.join(Dirname, 'PlaySet0.json'), PlaySet0Meta["cdn_root"] + PlaySet0Meta["url"])
+        PlaySet0 = LoadAPIData(os.path.join(Dirname, 'PlaySet0.json'), PlaySet0Meta["cdn_root"] + PlaySet0Meta["url"])
 
     if APIExpired(PlaySet1Meta['expire_time']):
         PlaySet1Meta = DownloadAndCache(os.path.join(Dirname, 'PlaySet1Meta.json'),"https://playartifact.com/cardset/01/")
         PlaySet1 = DownloadAndCache(os.path.join(Dirname, 'PlaySet1.json'), PlaySet1Meta["cdn_root"] + PlaySet1Meta["url"])    
     else:
-        LoadAPIData(os.path.join(Dirname, 'PlaySet1.json'), PlaySet1Meta["cdn_root"] + PlaySet1Meta["url"])
-
-
-    # try:
-    #     with open(os.path.join(Dirname, 'PlaySet0.json')) as f:
-    #         PlaySet0 = json.load(f)
-    #     Debugtolog("Playset0 cache loaded")
-    # except:
-    #     Debugtolog("Downloading Playset0 JSON Data")
-    #     PlaySet0Meta = DownloadJSONBlob("https://playartifact.com/cardset/00/")
-    #     PlaySet0 = DownloadJSONBlob(PlaySet0Meta["cdn_root"] + PlaySet0Meta["url"])
-
-    #     with open(os.path.join(Dirname, 'PlaySet0.json'), 'w') as f:
-    #         json.dump(PlaySet0, f)
-
-    # try:
-    #     with open(os.path.join(Dirname, 'PlaySet1.json')) as f:
-    #         PlaySet1 = json.load(f)
-    #     Debugtolog("Playset1 cache loaded")
-    # except:
-    #     Debugtolog("Downloading Playset1 JSON Data")
-    #     PlaySet1Meta = DownloadJSONBlob("https://playartifact.com/cardset/01/")
-    #     PlaySet1 = DownloadJSONBlob(PlaySet1Meta["cdn_root"] + PlaySet1Meta["url"])
-        
-    #     with open(os.path.join(Dirname, 'PlaySet1.json'), 'w') as f:
-    #         json.dump(PlaySet1, f)
-
+        PlaySet1 = LoadAPIData(os.path.join(Dirname, 'PlaySet1.json'), PlaySet1Meta["cdn_root"] + PlaySet1Meta["url"])
+    
     Debugtolog("JSON data loaded")
-
 
 #---------------------------
 #   [Required] Execute Data / Process messages
@@ -117,7 +78,6 @@ def Execute(data):
 #   [Required] Tick method (Gets called during every iteration even when there is no incoming data)
 #---------------------------
 def Tick():
-
     return
 
 #---------------------------
@@ -137,7 +97,7 @@ def Unload():
 def DownloadJSONBlob(url):
     var_exists = 'Parent' in locals() or 'Parent' in globals()
     if var_exists:
-        req = Parent.GetRequest(url)
+        req = Parent.GetRequest(url, {})
         # Built in requests function adds another layer to JSON object
         json_dict = json.load(req)
         apiset = json.loads(json_dict)   
@@ -256,3 +216,19 @@ def DownloadAndCache(filename, url):
 
 def APIExpired(Expiretime):
     return datetime.datetime.utcnow() > datetime.datetime.utcfromtimestamp(Expiretime)
+
+# Use to send debut messages to stream chat
+def Debugtochat(msg):
+    var_exists = 'Parent' in locals() or 'Parent' in globals()
+    if var_exists:
+        Parent.SendStreamMessage(msg)
+    else:
+        print msg
+
+# Use to send debug messages to streamlabs chatbot logs section
+def Debugtolog(msg):
+    var_exists = 'Parent' in locals() or 'Parent' in globals()
+    if var_exists:
+        Parent.Log("Script Debug", msg)
+    else:
+        print msg
