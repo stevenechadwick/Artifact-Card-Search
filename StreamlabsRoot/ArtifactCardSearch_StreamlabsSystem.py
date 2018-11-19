@@ -44,7 +44,7 @@ def Init():
     global PlaySet0
     global PlaySet1
 
-    Debugtochat("Initializing ArtifactCardSearch")
+    Debugtolog("Initializing ArtifactCardSearch")
 
     Dirname = os.path.dirname(__file__)    
     LoadSettings()
@@ -99,8 +99,8 @@ def DownloadJSONBlob(url):
     if var_exists:
         req = Parent.GetRequest(url, {})
         # Built in requests function adds another layer to JSON object
-        json_dict = json.load(req)
-        apiset = json.loads(json_dict)   
+        json_dict = json.loads(req)
+        apiset = json.loads(json_dict['response'])
         return apiset
     else:
         req = urllib.urlopen(url)
@@ -211,7 +211,7 @@ def DownloadAndCache(filename, url):
     JSONData = DownloadJSONBlob(url)
     
     with open(filename, 'w') as f:
-        json.dump(JSONData, f)
+        json.dumps(JSONData, f, ensure_ascii=False)
     return JSONData
 
 def APIExpired(Expiretime):
