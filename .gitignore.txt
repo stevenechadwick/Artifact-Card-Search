@@ -1,2 +1,3 @@
 PlaySet*.json
 *.pyc
+*.ini
